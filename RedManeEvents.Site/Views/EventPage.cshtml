@@ -1,0 +1,26 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.EventPage>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+	Layout = "Main.cshtml";
+}
+
+@section Styles {
+    <style>
+        .table td  p {margin-bottom:0;}
+    </style>
+}
+
+<div class="ms-3 mt-5">
+    <div><strong>Name:</strong> @Model.Name</div>
+    <div><strong>ID:</strong> @Model.Id</div>
+    <div><strong>Key:</strong> @Model.Key</div>
+    <div><strong>Url:</strong> @Model.Url()</div>
+    <div><strong>Children:</strong> @Model.ChildrenOfType("registration").Count()</div>
+    <div class="mt-4"><strong>Properties:</strong></div>
+    <table class="table table-condensed">
+        @foreach (var p in Model.Properties) {
+            <tr><td><strong>@p.Alias:</strong></td><td>@(Model.Value(p.Alias).SafeCast<IPublishedContent>()?.Url() ?? Model.Value(p.Alias) )</td></tr>
+        }
+    </table>
+</div>
